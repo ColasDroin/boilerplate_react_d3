@@ -10,17 +10,21 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20]
 
     steps:
-      - name: Get files
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install packages
-        run: pnpm ci
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
       - name: Build project
         run: pnpm run build
       - name: Export static files
@@ -28,7 +32,7 @@ jobs:
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@4.7.2
         with:
           branch: gh-pages
           folder: out
