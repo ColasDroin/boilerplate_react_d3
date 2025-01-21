@@ -20,11 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
-        run: npm ci
+        run: pnpm ci
       - name: Build project
-        run: npm run build
+        run: pnpm run build
       - name: Export static files
-        run: npm run build
+        run: pnpm run build
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll
       - name: Deploy
